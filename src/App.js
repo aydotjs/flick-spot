@@ -1,9 +1,16 @@
-import { Children, useState } from "react";
+import { useState } from "react";
 import NavBar from "./NavBar";
-import AllMovies from "./AllMovies";
-import SeenMovies from "./SeenMovies";
+import Box from "./AllMovies";
+
 import tempMovieData from "./TempMovieData";
 import tempWatchedData from "./TempWatchedData";
+import Search from "./Search";
+import NumResults from "./NumResults";
+import Logo from "./Logo";
+import Main from "./Main";
+import MovieList from "./MovieList";
+import Summary from "./Summary";
+import SeenMovieList from "./SeenMovieList";
 
 const average = (arr) =>
   arr.reduce((acc, cur, _, arr) => acc + cur / arr.length, 0);
@@ -22,34 +29,24 @@ export default function App() {
   return (
     <>
       <NavBar>
-        <nav className="nav-bar">
-          <div className="logo">
-            <span role="img">🍿</span>
-            <h1>flick spot</h1>
-          </div>
-          <input
-            className="search"
-            type="text"
-            placeholder="Search movies..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <p className="num-results">
-            Found <strong>{movies.length}</strong> results
-          </p>
-        </nav>
+        <Logo />
+        <Search query={query} setQuery={setQuery} />
+        <NumResults movies={movies} />
       </NavBar>
-      <main className="main">
-        <AllMovies isOpen1={isOpen1} setIsOpen1={setIsOpen1} movies={movies} />
-        <SeenMovies
-          isOpen2={isOpen2}
-          setIsOpen2={setIsOpen2}
-          watched={watched}
-          avgImdbRating={avgImdbRating}
-          avgUserRating={avgUserRating}
-          avgRuntime={avgRuntime}
-        />
-      </main>
+      <Main>
+        <Box isOpen={isOpen1} setIsOpen={setIsOpen1}>
+          <MovieList movies={movies} />
+        </Box>
+        <Box isOpen={isOpen2} setIsOpen={setIsOpen2}>
+          <Summary
+            watched={watched}
+            avgImdbRating={avgImdbRating}
+            avgUserRating={avgUserRating}
+            avgRuntime={avgRuntime}
+          />
+          <SeenMovieList watched={watched} />
+        </Box>
+      </Main>
     </>
   );
 }

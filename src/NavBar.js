@@ -2,7 +2,9 @@ import React from "react";
 
 const NavBar = ({ children }) => {
   return (
-  {children}
+    <nav className="nav-bar">
+      {children}
+  </nav>
   );
 };
 
